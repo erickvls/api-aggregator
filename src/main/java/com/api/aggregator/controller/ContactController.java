@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class ContactController {
@@ -16,8 +18,10 @@ public class ContactController {
     private final ContactService contactService;
 
     @GetMapping("/contacts")
-    public ResponseEntity<String> getContacts() {
-        return ResponseEntity.ok("OK");
+    public ResponseEntity<List<Contact>> getContacts(
+            @RequestHeader("Authorization") String token
+    ) {
+        return ResponseEntity.ok(contactService.getAllContacts(token));
     }
 
 
