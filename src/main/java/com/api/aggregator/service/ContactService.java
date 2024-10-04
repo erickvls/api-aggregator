@@ -21,6 +21,9 @@ public class ContactService {
     private final KenectLabsClient kenectLabsClient;
     private static final String TOTAL_PAGES_HEADER = "Total-Pages";
 
+    /*
+    Retrieves all contacts by fetching data across multiple pages.
+     */
     public List<Contact> getAllContacts(String token) {
         var allContacts = new ArrayList<Contact>();
         var page = 1;
@@ -41,18 +44,26 @@ public class ContactService {
         return allContacts;
     }
 
-    private ResponseEntity<ContactsResponse> fetchContactsFromPage(int page, String token) {
-        return kenectLabsClient.getContacts(page, token);
-    }
-
-    private int getTotalPages(HttpHeaders headers) {
-        return headers.getFirst(TOTAL_PAGES_HEADER) instanceof String value ? Integer.parseInt(value) : 0;
-    }
-
     public Contact getContactById(String id, String token) {
         var contact = kenectLabsClient.getContactById(id, token);
         return Optional.ofNullable(contact.getBody())
                 .map(ContactResponse::getContact)
                 .orElseThrow(NotFoundException::new);
     }
+
+    /*
+    Helper method to fetch contacts from a specific page using the Feign client.
+     */
+    private ResponseEntity<ContactsResponse> fetchContactsFromPage(int page, String token) {
+        return kenectLabsClient.getContacts(page, token);
+    }
+
+    /*
+    Helper method to extract the total number of pages from the HTTP headers of a response.
+     */
+    private int getTotalPages(HttpHeaders headers) {
+        return headers.getFirst(TOTAL_PAGES_HEADER) instanceof String value ? Integer.parseInt(value) : 0;
+    }
+
+
 }

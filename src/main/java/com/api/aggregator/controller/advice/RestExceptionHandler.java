@@ -5,6 +5,9 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/*
+ Global exception handler that processes AggregatorException and maps it to a ProblemDetail response.
+ */
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(AggregatorException.class)
