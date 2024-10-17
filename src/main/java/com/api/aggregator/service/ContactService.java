@@ -4,6 +4,7 @@ import com.api.aggregator.client.KenectLabsClient;
 import com.api.aggregator.client.dto.Contact;
 import com.api.aggregator.client.dto.ContactResponse;
 import com.api.aggregator.client.dto.ContactsResponse;
+import com.api.aggregator.enums.SourceType;
 import com.api.aggregator.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +35,8 @@ public class ContactService {
             var responseBody = response.getBody();
 
             if (responseBody != null && responseBody.getContacts() != null) {
+                // Add the source type
+                setSource(responseBody.getContacts(), SourceType.KENECT_LABS);
                 allContacts.addAll(responseBody.getContacts());
             }
 
@@ -65,5 +68,11 @@ public class ContactService {
         return headers.getFirst(TOTAL_PAGES_HEADER) instanceof String value ? Integer.parseInt(value) : 0;
     }
 
+    /*
+     * Sets the source type for each contact in the given list.
+     */
+    public void setSource(List<Contact> contacts, SourceType sourceType){
+        contacts.forEach(contact -> contact.setSource(sourceType));
+    }
 
 }
