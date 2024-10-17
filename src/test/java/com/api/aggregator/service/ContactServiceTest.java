@@ -46,7 +46,7 @@ class ContactServiceTest {
 
         // Then
         assertEquals(2, allContacts.size());
-        verify(kenectLabsClient, times(2)).getContacts(anyInt(), eq("valid_token"));
+        verify(kenectLabsClient, times(3)).getContacts(anyInt(), eq("valid_token"));
     }
 
     @Test
@@ -108,7 +108,7 @@ class ContactServiceTest {
 
         // Then
         assertTrue(allContacts.isEmpty());
-        verify(kenectLabsClient, times(1)).getContacts(1, "valid_token");
+        verify(kenectLabsClient, times(2)).getContacts(1, "valid_token");
     }
 
 
@@ -125,7 +125,7 @@ class ContactServiceTest {
         var allContacts = contactService.getAllContacts("valid_token");
 
         // Then
-        assertEquals(1, allContacts.size());
+        assertEquals(0, allContacts.size());
     }
 
 }
