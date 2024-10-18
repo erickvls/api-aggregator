@@ -59,7 +59,7 @@ This project is set up to run easily using Docker and Docker Compose. To run the
 
 1. Clone the repository:
 
-         git clone https://github.com/your-repo/api-aggregator.git
+         git clone https://github.com/erickvls/api-aggregator.git
          cd api-aggregator
 
 
